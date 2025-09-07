@@ -4,12 +4,18 @@ on:
         branches:
             - main
 
+permissions:
+    contents: write
+
 jobs:
     add-coauthor:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  fetch-depth: 2
 
             - name: Configure Git
               run: |
@@ -24,8 +30,8 @@ jobs:
                   # Get last commit message
                   MSG=$(git log -1 --pretty=%B)
 
-                  # If co-author not already included, amend commit
-                  if ! echo "$MSG" | grep -q "Co-authored-by: $OWNER_NAME"; then
+                  # If author or co-author not already included, amend commit
+                  if [ "$AUTHOR_EMAIL" != "$OWNER_EMAIL" ] && ! echo "$MSG" | grep -q "Co-authored-by: $OWNER_NAME"; then
                     git commit --amend -m "$MSG\n\nCo-authored-by: $OWNER_NAME <$OWNER_EMAIL>" --no-edit
                     git push --force
                   fi
