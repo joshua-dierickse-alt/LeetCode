@@ -1,0 +1,31 @@
+name: Add Co-Author
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    add-coauthor:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Configure Git
+              run: |
+                  git config user.name "GitHub Actions Bot"
+                  git config user.email "actions@github.com"
+
+            - name: Add co-author to latest commit
+              run: |
+                  OWNER_NAME="Joshua Dierickse"
+                  OWNER_EMAIL="jpcdieri@uwaterloo.com"
+
+                  # Get last commit message
+                  MSG=$(git log -1 --pretty=%B)
+
+                  # If co-author not already included, amend commit
+                  if ! echo "$MSG" | grep -q "Co-authored-by: $OWNER_NAME"; then
+                    git commit --amend -m "$MSG\n\nCo-authored-by: $OWNER_NAME <$OWNER_EMAIL>" --no-edit
+                    git push --force
+                  fi
