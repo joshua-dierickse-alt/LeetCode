@@ -32,6 +32,9 @@ jobs:
 
                   # If author or co-author not already included, amend commit
                   if [ "$AUTHOR_EMAIL" != "$OWNER_EMAIL" ] && ! echo "$MSG" | grep -q "Co-authored-by: $OWNER_NAME"; then
-                    git commit --amend -m "$MSG\n\nCo-authored-by: $OWNER_NAME <$OWNER_EMAIL>" --no-edit
+                    git commit --amend \
+                        -m "$MSG" \
+                        -m "Co-authored-by: $OWNER_NAME <$OWNER_EMAIL>" \
+                        --no-edit
                     git push --force
                   fi
