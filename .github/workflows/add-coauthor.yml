@@ -25,7 +25,7 @@ jobs:
             - name: Add co-author to latest commit
               run: |
                   OWNER_NAME="Joshua Dierickse"
-                  OWNER_EMAIL="joshua.dierickse@uwaterloo.com"
+                  OWNER_EMAIL="joshua.dierickse@gmail.com"
 
                   # Get last commit message
                   MSG=$(git log -1 --pretty=%B)
