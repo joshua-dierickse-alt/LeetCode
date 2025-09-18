@@ -12,11 +12,11 @@ class Solution:
             if max_l < max_r:
                 l += 1
                 max_l = max(max_l, height[l])
-                trapped += max(min(max_l, max_r) - height[l], 0)
+                trapped += max_l - height[l]
             else:
                 r -= 1
                 max_r = max(max_r, height[r])
-                trapped += max(min(max_l, max_r) - height[r], 0)
+                trapped += max_r - height[r]
 
         return trapped
             
