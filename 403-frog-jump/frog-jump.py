@@ -4,12 +4,10 @@ class Solution:
 
     @lru_cache(maxsize=100000)
     def r(self, i, k):
-        j = 1
-
-        if i == len(self.stones) - 1:
+        if i == self.n - 1:
             return True
-
-        while i + j < len(self.stones) and self.stones[i + j] - self.stones[i] <= k + 1:
+        j = 1
+        while i + j < self.n and self.stones[i + j] - self.stones[i] <= k + 1:
             if k - 1 <= self.stones[i + j] - self.stones[i] <= k + 1:
                 if self.r(i + j, self.stones[i + j] - self.stones[i]):
                     return True
@@ -23,5 +21,7 @@ class Solution:
             return False
 
         self.stones = stones
+        self.n = len(self.stones)
+
         return self.r(1, 1)
         
