@@ -7,9 +7,12 @@ class Solution:
         if i == self.n - 1:
             return True
         j = 1
-        while i + j < self.n and self.stones[i + j] - self.stones[i] <= k + 1:
-            if k - 1 <= self.stones[i + j] - self.stones[i] <= k + 1:
-                if self.r(i + j, self.stones[i + j] - self.stones[i]):
+        while i + j < self.n:
+            d = self.stones[i + j] - self.stones[i]
+            if d > k + 1:
+                break
+            if k - 1 <= d:
+                if self.r(i + j, d):
                     return True
             j += 1
 
