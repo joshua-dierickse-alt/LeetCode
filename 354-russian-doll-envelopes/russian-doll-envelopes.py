@@ -4,8 +4,7 @@ class Solution:
     def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
         envelopes.sort()
 
-        dp = []
-
+        n = 0
         i = 0
 
         while i < len(envelopes):
@@ -15,7 +14,7 @@ class Solution:
             updates = []
 
             while i + j < len(envelopes) and prev_x == envelopes[i + j][0]:
-                update_index = bisect_left(dp, envelopes[i + j][1])
+                update_index = bisect_left(envelopes, envelopes[i + j][1], 0, n)
                 if update_index != last_index:
                     last_index = update_index
                     updates.append((update_index, envelopes[i + j][1]))
@@ -23,12 +22,11 @@ class Solution:
                 j += 1
 
             for [update_index, value] in updates:
-                if update_index >= len(dp):
-                    dp.append(value)
-                else:
-                    dp[update_index] = value
+                if update_index >= n:
+                    n += 1
+                envelopes[update_index] = value
 
             i += j
             
-        return len(dp)
+        return n
             
