@@ -1,14 +1,21 @@
+from functools import lru_cache
 import math
 
 class Solution:
+
+    @lru_cache(maxsize=None)
+    def r(self, i, b):
+        if i >= len(self.nums):
+            return -math.inf
+
+        if b:
+            return max(self.nums[i], self.nums[i] + self.r(i + 1, True))
+        else:
+            return max(self.r(i, True), self.r(i + 1, False))
+
+
     def maxSubArray(self, nums: List[int]) -> int:
-        m = -math.inf
+        self.nums = nums
 
-        c = 0
-
-        for num in nums:
-            c += num
-            m = max(m, c)
-            c = max(c, 0)
-
-        return m
+        return self.r(0, False)
+        
