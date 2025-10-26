@@ -2,7 +2,7 @@ import heapq
 
 class Solution:
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
-        trips = sorted(trips, key=lambda x: x[1])
+        trips.sort(key=lambda x: x[1])
 
         in_car = []
 
