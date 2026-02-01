@@ -1,15 +1,18 @@
-from sortedcontainers import SortedList
+from collections import deque
 
 class Solution:
     def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
-        avl = SortedList([nums[0]])
+        d = deque([])
 
-        for i in range(1, len(nums)):
-            nums[i] = max(nums[i], avl[-1] + nums[i])
+        for i in range(len(nums)):
+            nums[i] = max(nums[i], nums[i] + (d[0][0] if d else 0))
 
-            avl.add(nums[i])
+            while d and d[-1][0] <= nums[i]:
+                d.pop()
 
-            if len(avl) > k:
-                avl.remove(nums[i - k])
+            if d and d[0][1] <= i - k:
+                d.popleft()
+
+            d.append((nums[i], i))
 
         return max(nums)
