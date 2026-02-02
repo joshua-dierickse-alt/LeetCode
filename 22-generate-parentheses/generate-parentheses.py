@@ -27,11 +27,4 @@ def recursive_generation(c, start, end):
 
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        # [(, 0, 0, 0, 0, 0]
-
-        # [(, ), 0, 0, 0, 0]
-        # [(, 0, 0, ), 0, 0]
-        # [(, 0, 0, 0, 0, )]
-
-
         return prettyPrint(recursive_generation(["."] * n * 2, 0, n * 2))
