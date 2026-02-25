@@ -14,12 +14,10 @@ bool abstract_truncation(vector<vector<int>> &t, int x, int y) {
 }
 
 bool top_truncation(vector<vector<int>> &t, int x, int y) {
-    // cout << "TOP: " << abstract_truncation<greater<int>>(t, x, y) << "\n";
     return abstract_truncation<greater<int>>(t, x, y);
 }
 
 bool bottom_truncation(vector<vector<int>> &t, int x, int y) {
-    // cout << "BOTTOM: " << abstract_truncation<less<int>>(t, x, y) << " - (" << x << ", " << y << ")\n";
     return abstract_truncation<less<int>>(t, x, y);
 }
 
@@ -63,31 +61,20 @@ public:
         vector<vector<int>> bottom = {trees.front()};
         vector<vector<int>> middle;
 
-        cout << x_s << " " << y_s << "\n"; 
-        cout << x_e << " " << y_e << "\n"; 
-
         for (int i = 1; i < trees.size() - 1; ++i) {
             int x = trees[i].front();
             int y = trees[i].back();
 
             double y_line = f(x);
 
-            // cout << x << " " << y << " - " << y_line << "\n";
-
             if (y > y_line) {
-                // cout << "ABOVE: " << x << " " << y << "\n";
                 while (top.size() >= 2 && top_truncation(top, x, y)) top.pop_back();
                 top.push_back(trees[i]);
             } else if (y < y_line) {
-                // debug(bottom);
                 while (bottom.size() >= 2 && bottom_truncation(bottom, x, y)) bottom.pop_back();
                 bottom.push_back(trees[i]);
             } else if (top.size() == 1 || bottom.size() == 1) middle.push_back(trees[i]);
         }
-
-        // debug(top);
-        // debug(bottom);
-        // debug(middle);
 
         while (top.size() >= 2 && top_truncation(top, x_e, y_e)) top.pop_back();
         while (bottom.size() >= 2 && bottom_truncation(bottom, x_e, y_e)) bottom.pop_back();
