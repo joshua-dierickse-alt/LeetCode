@@ -6,6 +6,6 @@ Each solution is organized by its LeetCode problem number and title. The goal of
 
 ## LeetCode Profile
 
-![Joshua Dierickse's LeetCode stats dark](https://leetcode-badge-sage.vercel.app/badge/joshuadierickse?theme=dark&bgColor=282828)
+![Joshua Dierickse's LeetCode stats dark](https://leetcode-badge-sage.vercel.app/badge/joshua-dierickse?theme=dark&bgColor=282828)
 
-https://leetcode.com/u/joshuadierickse/
+https://leetcode.com/u/joshua-dierickse
