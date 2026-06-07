@@ -13,6 +13,8 @@ class Solution {
 public:
     TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
         unordered_map<int, TreeNode*> m;
+        m.reserve(descriptions.size() * 1.5);
+
         int root = 0;
 
         for (const auto &d : descriptions) {
@@ -31,7 +33,7 @@ public:
 
             if (is_left) m[p]->left = m[c];
             else m[p]->right = m[c];
-            
+
             root ^= c;
         }
 
