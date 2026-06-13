@@ -1,15 +1,15 @@
 class Solution {
 public:
     string mapWordWeights(vector<string>& words, vector<int>& weights) {
-        string f;
+        string f(words.size(), '\0');
 
-        for (const string &word : words) {
+        for (size_t i = 0; i < words.size(); ++i) {
             int s = 0;
 
-            for (char c : word)
-                s = (s + weights[static_cast<int>(c) - 97]) % 26;
+            for (char c : words[i])
+                s = (s + weights[c - 'a']) % 26;
             
-            f += static_cast<char>(97 + (25 - s));
+            f[i] = 'a' + (25 - s);
         }
 
         return f;
