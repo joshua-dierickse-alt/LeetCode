@@ -27,12 +27,10 @@ public:
     }
 
     int sumRange(int r) {
-        if (r == -1) return 0;
-
         int s = 0;
         r += 1;
 
-        while (r >= 1) {
+        while (r) {
             s += fenwick[r - 1];
             r -= r & -r;
         }
