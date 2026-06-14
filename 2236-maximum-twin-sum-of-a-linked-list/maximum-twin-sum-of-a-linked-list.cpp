@@ -16,9 +16,8 @@ public:
         ListNode* p = nullptr;
         ListNode* n = nullptr;
 
-        while (h) {
-            h = h->next;
-            if (h) h = h->next;
+        while (h && h->next) {
+            h = h->next->next;
 
             n = t->next;
             t->next = p;
@@ -28,7 +27,7 @@ public:
 
         int m = 0;
 
-        while (p && t) {
+        while (p) {
             m = max(m, p->val + t->val);
             p = p->next;
             t = t->next;
