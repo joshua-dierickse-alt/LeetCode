@@ -20,11 +20,13 @@ class Solution:
                 v[num] = 2 + depth(num ** 2) if d != -1 else 1
                 return v[num]
 
-        for num in nums:
-            if num != 1:
-                m = max(m, depth(num))
-
         ones = h.get(1, 1)
         ones = ones - 1 if ones % 2 == 0 else ones
+
+        if 1 in h:
+            del h[1]
+
+        for num in h.keys():
+            m = max(m, depth(num))
 
         return max(ones, m)                                               
