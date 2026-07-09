@@ -12,7 +12,6 @@ class Solution:
             nums[i] = unique_id
 
         for i, [u, v] in enumerate(queries):
-            u, v = min(u, v), max(u, v)
             queries[i] = nums[u] == nums[v]
         
         return queries
