@@ -12,23 +12,24 @@ class LinkedList:
         self.head.next = self.tail
         self.tail.prev = self.head
 
-    def add_head(self, node):
+    def remove(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+    def push_front(self, node):
         node.prev = self.head
         node.next = self.head.next
         self.head.next.prev = node
         self.head.next = node
+
+    def pop_back(self):
+        node = self.tail.prev
+        self.remove(node)
         return node
 
-    def delete_tail(self):
-        prev = self.tail.prev
-        self.tail.prev = self.tail.prev.prev
-        self.tail.prev.next = self.tail
-        return prev
-
     def move_to_front(self, node: Node):
-        node.prev.next = node.next
-        node.next.prev = node.prev
-        self.add_head(node)
+        self.remove(node)
+        self.push_front(node)
 
 class LRUCache:
     def __init__(self, capacity: int):
@@ -37,16 +38,21 @@ class LRUCache:
         self.cache = {}
 
     def get(self, key: int) -> int:
-        if key in self.cache:
-            self.linked_list.move_to_front(self.cache[key])
-            return self.cache[key].value
-        return -1
+        node = self.cache.get(key)
+        if node is None:
+            return -1
+        self.linked_list.move_to_front(node)
+        return node.value
 
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            self.linked_list.move_to_front(self.cache[key])
-            self.cache[key].value = value
-        else:
+        node = self.cache.get(key)
+        if node is None:
             if len(self.cache) == self.capacity:
-                del self.cache[self.linked_list.delete_tail().key]
-            self.cache[key] = self.linked_list.add_head(Node(key, value))
+                lru = self.linked_list.pop_back()
+                del self.cache[lru.key]
+            node = Node(key, value)
+            self.linked_list.push_front(node)
+            self.cache[key] = node
+        else:
+            self.linked_list.move_to_front(node)
+            node.value = value
