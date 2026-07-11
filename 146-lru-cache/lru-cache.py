@@ -49,6 +49,14 @@ class LRUCache:
         self.linked_list.append_head(key, value)
         self.cache[key] = self.linked_list.head
 
+    def delete_tail(self):
+        del self.cache[self.linked_list.tail.key]
+        self.linked_list.delete_tail()
+
+    def append_head(self, key, value):
+        self.linked_list.append_head(key, value)
+        self.cache[key] = self.linked_list.head
+
     def get(self, key: int) -> int:
         if key in self.cache:
             self.update_value(key, self.cache[key].value)
@@ -58,14 +66,10 @@ class LRUCache:
     def put(self, key: int, value: int) -> None:
         if key in self.cache:
             self.update_value(key, value)
-            return
-
-        if len(self.cache) == self.capacity:
-            del self.cache[self.linked_list.tail.key]
-            self.linked_list.delete_tail()
-
-        self.linked_list.append_head(key, value)
-        self.cache[key] = self.linked_list.head
+        else:
+            if len(self.cache) == self.capacity:
+                self.delete_tail()
+            self.append_head(key, value)
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
