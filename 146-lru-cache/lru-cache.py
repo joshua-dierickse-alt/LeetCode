@@ -1,42 +1,34 @@
-from dataclasses import dataclass
-
-@dataclass
 class Node:
-    key: int
-    value: int
-    left: Node
-    right: Node
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.prev = None
+        self.next = None
 
 class LinkedList:
     def __init__(self):
-        self.head = None
-        self.tail = None
+        self.head = Node(-1, -1)
+        self.tail = Node(-1, -1)
+        self.head.next = self.tail
+        self.tail.prev = self.head
 
-    def append_head(self, key: int, head: int):
-        self.head = Node(key=key, value=head, left=None, right=self.head)
-        if self.head.right:
-            self.head.right.left = self.head
-        if self.tail == None:
-            self.tail = self.head
+    def add_head(self, node):
+        node.prev = self.head
+        node.next = self.head.next
+        self.head.next.prev = node
+        self.head.next = node
+        return node
 
     def delete_tail(self):
-        self.delete_node(self.tail)
+        prev = self.tail.prev
+        self.tail.prev = self.tail.prev.prev
+        self.tail.prev.next = self.tail
+        return prev
 
-    def delete_node(self, node: Node):
-        if self.head == self.tail:
-            self.head = None
-            self.tail = None
-        elif self.head == node:
-            self.head = self.head.right
-            self.head.left = None
-        elif self.tail == node:
-            self.tail = self.tail.left
-            self.tail.right = None
-        else:
-            if node.left:
-                node.left.right = node.right
-            if node.right:
-                node.right.left = node.left
+    def move_to_front(self, node: Node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        self.add_head(node)
 
 class LRUCache:
     def __init__(self, capacity: int):
@@ -44,34 +36,17 @@ class LRUCache:
         self.linked_list = LinkedList()
         self.cache = {}
 
-    def update_value(self, key, value):
-        self.linked_list.delete_node(self.cache[key])
-        self.linked_list.append_head(key, value)
-        self.cache[key] = self.linked_list.head
-
-    def delete_tail(self):
-        del self.cache[self.linked_list.tail.key]
-        self.linked_list.delete_tail()
-
-    def append_head(self, key, value):
-        self.linked_list.append_head(key, value)
-        self.cache[key] = self.linked_list.head
-
     def get(self, key: int) -> int:
         if key in self.cache:
-            self.update_value(key, self.cache[key].value)
+            self.linked_list.move_to_front(self.cache[key])
             return self.cache[key].value
         return -1
 
     def put(self, key: int, value: int) -> None:
         if key in self.cache:
-            self.update_value(key, value)
+            self.linked_list.move_to_front(self.cache[key])
+            self.cache[key].value = value
         else:
             if len(self.cache) == self.capacity:
-                self.delete_tail()
-            self.append_head(key, value)
-
-# Your LRUCache object will be instantiated and called as such:
-# obj = LRUCache(capacity)
-# param_1 = obj.get(key)
-# obj.put(key,value)
+                del self.cache[self.linked_list.delete_tail().key]
+            self.cache[key] = self.linked_list.add_head(Node(key, value))
