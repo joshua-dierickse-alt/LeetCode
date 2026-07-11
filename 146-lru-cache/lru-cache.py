@@ -21,6 +21,7 @@ class LinkedList:
         node.next = self.head.next
         self.head.next.prev = node
         self.head.next = node
+        return node
 
     def pop_back(self):
         node = self.tail.prev
@@ -48,11 +49,9 @@ class LRUCache:
         node = self.cache.get(key)
         if node is None:
             if len(self.cache) == self.capacity:
-                lru = self.linked_list.pop_back()
-                del self.cache[lru.key]
-            node = Node(key, value)
-            self.linked_list.push_front(node)
-            self.cache[key] = node
+                del self.cache[self.linked_list.pop_back().key]
+            self.cache[key] = self.linked_list.push_front(Node(key, value))
         else:
-            self.linked_list.move_to_front(node)
-            node.value = value
+            self.linked_list.move_to_front(self.cache[key])
+            self.cache[key].value = value
+            
