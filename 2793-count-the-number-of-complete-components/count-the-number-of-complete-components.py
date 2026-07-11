@@ -1,57 +1,38 @@
-from collections import defaultdict, deque
+from collections import deque
 
 class Solution:
     def countCompleteComponents(self, n: int, edges: List[List[int]]) -> int:
-        graph = defaultdict(set)
+        graph = [[] for _ in range(n)]
 
         for u, v in edges:
-            graph[u].add(v)
-            graph[v].add(u)
+            graph[u].append(v)
+            graph[v].append(u)
 
         v = [False] * n
-        c = 1
-
-        for i in range(n):
-            if v[i] != False:
-                continue
-            
-            if i not in graph:
-                v[i] = c
-                c += 1
-                continue
-            
-            q = deque([i])
-            v[i] = c
-
-            while q:
-                front = q.popleft()
-
-                for nxt in graph[front]:
-                    if v[nxt] == False:
-                        q.append(nxt)
-                        v[nxt] = c
-
-            c += 1
-
-        def is_complete(component):
-            if len(component) == 1:
-                return True
-
-            for i in range(len(component) - 1):
-                for j in range(i + 1, len(component)):
-                    if component[i] not in graph[component[j]]:
-                        return False
-            return True
-
-        components = defaultdict(list)
-
-        for i, e in enumerate(v):
-            components[e].append(i)
-
         f = 0
 
-        for component in components.values():
-            if is_complete(component):
+        for i in range(n):
+            if v[i]:
+                continue
+                        
+            q = deque([i])
+            v[i] = True
+
+            nodes = 0
+            edges = 0
+
+            while q:
+                node = q.popleft()
+
+                nodes += 1
+                edges += len(graph[node])
+
+                for nxt in graph[node]:
+                    if not v[nxt]:
+                        q.append(nxt)
+                        v[nxt] = True
+
+            if nodes * (nodes - 1) == edges:
                 f += 1
 
         return f
