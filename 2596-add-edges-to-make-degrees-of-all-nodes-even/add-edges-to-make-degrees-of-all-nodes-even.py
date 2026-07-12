@@ -22,12 +22,7 @@ class Solution:
 
             return graph
 
-
         match len(odd_degree):
-            case 0:
-                return True
-            case 1:
-                return False
             case 2:
                 graph = build_graph()
 
@@ -40,8 +35,6 @@ class Solution:
                     return True
 
                 return False
-            case 3:
-                return False
             case 4:
                 graph = build_graph()
 
@@ -52,4 +45,4 @@ class Solution:
                         return True
                 return False
             case _:
-                return False
+                return len(odd_degree) == 0
