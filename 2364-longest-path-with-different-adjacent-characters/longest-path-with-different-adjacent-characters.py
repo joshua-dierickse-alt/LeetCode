@@ -2,34 +2,32 @@ from collections import defaultdict
 
 class Solution:
     def longestPath(self, parent: List[int], s: str) -> int:
-        graph = defaultdict(list)
+        graph = [[] for _ in range(len(s))]
 
-        for c, p in enumerate(parent):
-            if p != -1:
-                graph[c].append(p)
-                graph[p].append(c)
+        it = enumerate(parent)
+        next(it)
 
-        visted = [False] * len(parent)
-        visted[0] = True
+        for c, p in it:
+            graph[p].append(c)
+
+        res = [0]
         
         def dfs(node):
-            max_final = 1
-            max_final_1 = 0
-            max_final_2 = 0
+            max_1 = 0
+            max_2 = 0
 
             for nxt in graph[node]:
-                if not visted[nxt]:
-                    visted[nxt] = True
-                    max_f, max_c = dfs(nxt)
-                    
-                    max_final = max(max_final, max_f)
+                max_r = dfs(nxt)
+                
+                if s[node] != s[nxt]:
+                    if max_r > max_1:
+                        max_1, max_2 = max_r, max_1
+                    elif max_r > max_2:
+                        max_2 = max_r
+            
+            res[0] = max(res[0], max_1 + max_2 + 1)
 
-                    if s[node] != s[nxt]:
-                        if max_c > max_final_1:
-                            max_final_1, max_final_2 = max_c, max_final_1
-                        elif max_c > max_final_2:
-                            max_final_2 = max_c
-                    
-            return (max(max_final, 1 + max_final_1 + max_final_2), max_final_1 + 1)
+            return max_1 + 1
 
-        return max(dfs(0))
+        dfs(0)
+        return res[0] 
