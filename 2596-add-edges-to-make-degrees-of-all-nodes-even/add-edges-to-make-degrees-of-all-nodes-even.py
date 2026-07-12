@@ -44,7 +44,6 @@ class Solution:
                 return False
             case 4:
                 graph = build_graph()
-                print(graph)
 
                 for pairs in COMBINATIONS:
                     u1, v1, u2, v2 = map(lambda i: odd_degree[i], pairs)
