@@ -1,19 +1,27 @@
-COMBINATIONS = [(0, 1, 2, 3), (0, 2, 1, 3), (0, 3, 1, 2)]
+from collections import defaultdict
 
+COMBINATIONS = [(0, 1, 2, 3), (0, 2, 1, 3), (0, 3, 1, 2)]
 
 class Solution:
     def isPossible(self, n: int, edge_pairs: List[List[int]]) -> bool:
-        graph = {i + 1: set() for i in range(n)}
-
+        degrees = [0] * (n + 1)
         for u, v in edge_pairs:
-            graph[u].add(v)
-            graph[v].add(u)
+            degrees[u] += 1
+            degrees[v] += 1
 
-        odd_degree = []
+        odd_degree = [i for i, d in enumerate(degrees) if d % 2 == 1]
+        
+        def build_graph():
+            graph = defaultdict(set)
 
-        for node, edge in graph.items():
-            if len(edge) % 2 == 1:
-                odd_degree.append(node)
+            for u, v in edge_pairs:
+                if u in odd_degree:
+                    graph[u].add(v)
+                if v in odd_degree:
+                    graph[v].add(u)
+
+            return graph
+
 
         match len(odd_degree):
             case 0:
@@ -21,6 +29,8 @@ class Solution:
             case 1:
                 return False
             case 2:
+                graph = build_graph()
+
                 u, v = odd_degree
 
                 if v not in graph[u]:
@@ -33,6 +43,9 @@ class Solution:
             case 3:
                 return False
             case 4:
+                graph = build_graph()
+                print(graph)
+
                 for pairs in COMBINATIONS:
                     u1, v1, u2, v2 = map(lambda i: odd_degree[i], pairs)
 
