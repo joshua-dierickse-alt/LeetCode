@@ -1,24 +1,31 @@
+from collections import defaultdict
+
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        s = {num: False for num in nums}
+        dsu = [i for i in range(len(nums))]
+        
+        def find(i):
+            if dsu[i] == i:
+                return i
+            dsu[i] = find(dsu[i])
+            return dsu[i]
 
-        longest = 0
-        for num, visited in s.items():
-            d = 1
-            if not visited:
-                s[num] = True
-                i = 1
-                while num - i in s:
-                    s[num - i] = True
-                    i += 1
-                    d += 1
+        def union(i, j):
+            dsu[find(i)] = find(j)
 
-                i = 1
-                while num + i in s:
-                    s[num + i] = True
-                    i += 1
-                    d += 1
-            
-            longest = max(longest, d)
+        nums = {nums[i]: i for i in range(len(nums))}
 
-        return longest
+        for num, i in nums.items():
+            if num - 1 in nums: union(i, nums[num - 1])
+            if num + 1 in nums: union(i, nums[num + 1])
+
+        counters = defaultdict(lambda: 0)
+
+        for i in nums.values():
+            counters[find(i)] += 1
+
+        m = 0
+        for count in counters.values():
+            m = max(m, count)
+
+        return m
