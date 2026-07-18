@@ -16,8 +16,8 @@ class Solution:
         nums = {nums[i]: i for i in range(len(nums))}
 
         for num, i in nums.items():
-            if num - 1 in nums: union(i, nums[num - 1])
-            if num + 1 in nums: union(i, nums[num + 1])
+            if num + 1 in nums:
+                union(i, nums[num + 1])
 
         counters = defaultdict(lambda: 0)
 
