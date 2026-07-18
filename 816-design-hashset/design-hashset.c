@@ -1,15 +1,10 @@
 typedef struct {
-    bool arr[1000001]    
+    bool arr[1000001];
 } MyHashSet;
 
 
 MyHashSet* myHashSetCreate() {
-    MyHashSet* my_hash_set = (MyHashSet*) malloc(sizeof(MyHashSet));
-
-    for (int i = 0; i < 1000001; i++)
-        my_hash_set->arr[i] = false;
-
-    return my_hash_set;
+    return (MyHashSet*) calloc(1, sizeof(MyHashSet));
 }
 
 void myHashSetAdd(MyHashSet* obj, int key) {
