@@ -6,9 +6,8 @@ class Solution:
         dsu = [i for i in range(len(nums))]
         
         def find(i):
-            if dsu[i] == i:
-                return i
-            dsu[i] = find(dsu[i])
+            if dsu[i] != i:
+                dsu[i] = find(dsu[i])
             return dsu[i]
 
         def union(i, j):
@@ -30,13 +29,4 @@ class Solution:
             if num + 1 in nums:
                 union(i, nums[num + 1])
 
-        counters = defaultdict(lambda: 0)
-
-        for i in nums.values():
-            counters[find(i)] += 1
-
-        m = 0
-        for count in counters.values():
-            m = max(m, count)
-
-        return m
+        return max(size) if size else 0
