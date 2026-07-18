@@ -20,7 +20,7 @@ class Solution:
             if size[x] < size[y]:
                 x, y = y, x
 
-            dsu[x] = y
+            dsu[y] = x
             size[x] += size[y]
 
 
