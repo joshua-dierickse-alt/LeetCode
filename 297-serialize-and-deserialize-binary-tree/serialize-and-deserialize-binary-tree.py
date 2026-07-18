@@ -19,13 +19,11 @@ class Codec:
                 res.append("*")
                 return
 
-            res.append("{")
             res.append(str(node.val))
             res.append(",")
             recursive(node.left)
             res.append(",")
             recursive(node.right)
-            res.append("}")
 
         recursive(root)
         res = "".join(res)
@@ -49,7 +47,6 @@ class Codec:
                 i += 1
                 return None
 
-            i += 1
             num = []
             while data[i] != ",":
                 num.append(data[i])
@@ -60,7 +57,6 @@ class Codec:
             left = recursive()
             i += 1
             right = recursive()
-            i += 1
             return TreeNode(num, left, right)
             
         return recursive()
