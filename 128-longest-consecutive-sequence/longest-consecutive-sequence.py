@@ -6,6 +6,7 @@ class Solution:
         for num, visited in s.items():
             d = 1
             if not visited:
+                s[num] = True
                 i = 1
                 while num - i in s:
                     s[num - i] = True
