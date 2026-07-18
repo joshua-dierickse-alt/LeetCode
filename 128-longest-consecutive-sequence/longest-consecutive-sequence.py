@@ -2,6 +2,7 @@ from collections import defaultdict
 
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
+        size = [1] * len(nums)
         dsu = [i for i in range(len(nums))]
         
         def find(i):
@@ -11,7 +12,17 @@ class Solution:
             return dsu[i]
 
         def union(i, j):
-            dsu[find(i)] = find(j)
+            x, y = find(i), find(j)
+
+            if x == y:
+                return
+            
+            if size[x] < size[y]:
+                x, y = y, x
+
+            dsu[x] = y
+            size[x] += size[y]
+
 
         nums = {nums[i]: i for i in range(len(nums))}
 
