@@ -14,23 +14,18 @@ class Codec:
         """
         res = []
 
-        def recursive(node):
+        def preorder(node):
             if node is None:
                 res.append("*")
                 return
 
             res.append(str(node.val))
-            res.append(",")
-            recursive(node.left)
-            res.append(",")
-            recursive(node.right)
+            preorder(node.left)
+            preorder(node.right)
 
-        recursive(root)
-        res = "".join(res)
-        return res
+        preorder(root)
+        return ",".join(res)
         
-    # {1,{2,*,*},{3,{4,*,*},{5,*,*}}}
-
     def deserialize(self, data):
         """Decodes your encoded data to tree.
         
@@ -38,28 +33,17 @@ class Codec:
         :rtype: TreeNode
         """
 
-        i = 0
+        data = iter(data.split(","))
 
-        def recursive():
-            nonlocal i
+        def preorder():
+            cur = next(data)
 
-            if data[i] == "*":
-                i += 1
+            if cur == "*":
                 return None
 
-            num = []
-            while data[i] != ",":
-                num.append(data[i])
-                i += 1
-            num = int("".join(num))
-
-            i += 1
-            left = recursive()
-            i += 1
-            right = recursive()
-            return TreeNode(num, left, right)
+            return TreeNode(int(cur), preorder(), preorder())
             
-        return recursive()
+        return preorder()
         
         
 
