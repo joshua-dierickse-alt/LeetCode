@@ -1,12 +1,7 @@
 import math
-from collections import Counter
 
 class Solution:
-    def maxActiveSectionsAfterTrade(self, s: str) -> int:
-        min_1s = math.inf
-        max_0s = 0
-        max_20s = 0
-        
+    def maxActiveSectionsAfterTrade(self, s: str) -> int:        
         def gen():
             first = True
             count = 0
@@ -31,7 +26,6 @@ class Solution:
         max_0 = 0
         max_0s = 0
         min_1s = math.inf
-
 
         for i, num in enumerate(gen()):
             if i % 2 == 0:
