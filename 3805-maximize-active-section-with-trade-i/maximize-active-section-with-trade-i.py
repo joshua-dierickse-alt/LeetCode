@@ -41,7 +41,7 @@ class Solution:
             else:
                 min_1s = min(min_1s, num)
 
-        ones = Counter(s)["1"]
+        ones = s.count("1")
 
         if min_1s == math.inf:
             return ones
