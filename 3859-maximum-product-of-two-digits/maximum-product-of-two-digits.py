@@ -1,17 +1,14 @@
 class Solution:
     def maxProduct(self, n: int) -> int:
-        arr = [0] * 10
+        m1, m2 = 0, 0
 
         for c in str(n):
-            arr[ord(c) - ord("0")] += 1
+            c = int(c)
 
-        m = None
+            if c >= m1:
+                m1, m2 = c, m1
+            elif c >= m2:
+                m2 = c
 
-        for i in range(9, -1, -1):
-            if m is None and arr[i] >= 2:
-                return i ** 2
-            elif arr[i] >= 1:
-                if m is None:
-                    m = i
-                else:
-                    return i * m
+        return m1 * m2
+
