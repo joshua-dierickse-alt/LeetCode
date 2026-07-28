@@ -23,4 +23,11 @@ class Solution:
                 mid = chr(i + OFFSET)
                 break
 
-        return "".join(result + [mid] + list(reversed(result)))
+        result.append(mid)
+
+        reversed_iter = reversed(result)
+        next(reversed_iter)
+
+        result.extend(reversed_iter)
+
+        return "".join(result)
