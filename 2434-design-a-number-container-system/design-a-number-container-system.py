@@ -3,20 +3,22 @@ from collections import defaultdict
 
 class NumberContainers:
     def __init__(self):
-        self.active_values = {}
-        self.smallest = defaultdict(list)
+        self.numbers = {}
+        self.heaps = defaultdict(list)
 
     def change(self, index: int, number: int) -> None:
-        self.active_values[index] = number
-        heapq.heappush(self.smallest[number], index)
+        self.numbers[index] = number
+        heapq.heappush(self.heaps[number], index)
 
     def find(self, number: int) -> int:
-        while self.smallest[number]:
-            index = self.smallest[number][0]
-            if number == self.active_values[index]:
+        heap = self.heaps[number]
+
+        while heap:
+            index = heap[0]
+            if number == self.numbers[index]:
                 return index
 
-            heapq.heappop(self.smallest[number])
+            heapq.heappop(heap)
 
         return -1
         
