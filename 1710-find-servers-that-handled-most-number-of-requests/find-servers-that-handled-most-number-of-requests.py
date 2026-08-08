@@ -14,14 +14,8 @@ class Solution:
 
             while unavailable_servers and unavailable_servers[0][0] <= arrival:
                 _, server = heapq.heappop(unavailable_servers)
-                server = server % k
-                
-                if i % k <= server:
-                    generation = (i // k) * k + server
-                else:
-                    generation = (i // k + 1) * k + server
-                    
-                heapq.heappush(available_servers, generation)
+                server = server % k    
+                heapq.heappush(available_servers, (i // k + (1 if i % k > server else 0)) * k + server)
 
             if not available_servers:
                 continue
