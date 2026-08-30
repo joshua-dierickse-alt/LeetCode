@@ -12,7 +12,6 @@ public:
         sort(nums_with_index.begin(), nums_with_index.end());
 
         int start = 0;
-        int count = 0;
         int prev = nums_with_index[0].first;
         MinHeap heap;
 
@@ -23,16 +22,18 @@ public:
                 result[heap.top()] = nums_with_index[start + i].first;
                 heap.pop();
             }
-            start = count;
         };
 
-        for (auto &[num, i] : nums_with_index) {
+        for (int i = 0; i < nums_with_index.size(); ++i) {
+            auto &[num, idx] = nums_with_index[i];
+
             if (num - prev > limit) {
                 process_heap();
+                start = i;
             }
-            heap.push(i);
+            
+            heap.push(idx);
             prev = num;
-            ++count;
         }
 
         process_heap();
