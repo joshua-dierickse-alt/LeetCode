@@ -1,31 +1,42 @@
+typedef priority_queue<int, vector<int>, greater<int>> MinHeap;
+
 class Solution {
 public:
     vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
-        vector<pair<int, int>> nums_with_index;
-        nums_with_index.reserve(nums.size());
+        vector<pair<int, int>> nums_with_index(nums.size());
+        vector<int> result(nums.size());
 
         for (int i = 0; i < nums.size(); ++i)
-            nums_with_index.emplace_back(nums[i], i);
+            nums_with_index[i] = pair<int, int>(nums[i], i);
         
         sort(nums_with_index.begin(), nums_with_index.end());
 
-        int prev = -pow(10, 9) - 10;
-        vector<priority_queue<int, vector<int>, greater<int>>> heaps;
+        int start = 0;
+        int count = 0;
+        int prev = nums_with_index[0].first;
+        MinHeap heap;
+
+        auto process_heap = [&]{
+            const int size = heap.size();
+
+            for (int i = 0; i < size; ++i) {
+                result[heap.top()] = nums_with_index[start + i].first;
+                heap.pop();
+            }
+            start = count;
+        };
 
         for (auto &[num, i] : nums_with_index) {
             if (num - prev > limit) {
-                heaps.emplace_back();
+                process_heap();
             }
-            heaps[heaps.size() - 1].push(i);
-            i = heaps.size() - 1;
+            heap.push(i);
             prev = num;
+            ++count;
         }
 
-        for (auto &[num, i] : nums_with_index) {
-            nums[heaps[i].top()] = num;
-            heaps[i].pop();
-        }
+        process_heap();
 
-        return nums;
+        return result;
     }
 };
