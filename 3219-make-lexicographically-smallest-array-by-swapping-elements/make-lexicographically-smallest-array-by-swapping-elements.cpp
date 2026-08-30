@@ -3,11 +3,15 @@ typedef priority_queue<int, vector<int>, greater<int>> MinHeap;
 class Solution {
 public:
     vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
-        vector<pair<int, int>> nums_with_index(nums.size());
-        vector<int> result(nums.size());
+        const int N = nums.size();
 
-        for (int i = 0; i < nums.size(); ++i)
-            nums_with_index[i] = pair<int, int>(nums[i], i);
+        vector<pair<int, int>> nums_with_index;
+        nums_with_index.reserve(N);
+        
+        vector<int> result(N);
+
+        for (int i = 0; i < N; ++i)
+            nums_with_index.emplace_back(nums[i], i);
         
         sort(nums_with_index.begin(), nums_with_index.end());
 
