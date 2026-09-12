@@ -9,22 +9,37 @@ class Solution:
             characters[ord(p[i]) - ord("a")] += 1
             characters[ord(s[i]) - ord("a")] -= 1
 
-        def is_anagram():
-            for val in characters:
-                if val != 0:
-                    return False
-            return True
+
+        def num_zeros(indexes):
+            zeros = 0
+
+            for idx in indexes:
+                if characters[idx] == 0:
+                    zeros += 1
+
+            return zeros
+
+        zeros = num_zeros(range(26))
 
         result = []
 
         for i in range(len(s) - len(p)):
-            if is_anagram():
+            if zeros == 26:
                 result.append(i)
 
-            characters[ord(s[i]) - ord("a")] += 1
-            characters[ord(s[i + len(p)]) - ord("a")] -= 1
+            idx1 = ord(s[i]) - ord("a")
+            idx2 = ord(s[i + len(p)]) - ord("a")
+
+            zeros_1 = num_zeros([idx1, idx2])
+
+            characters[idx1] += 1
+            characters[idx2] -= 1
+
+            zeros_2 = num_zeros([idx1, idx2])
+
+            zeros += zeros_2 - zeros_1
             
-        if is_anagram():
+        if zeros == 26:
             result.append(len(s) - len(p))
 
         return result
