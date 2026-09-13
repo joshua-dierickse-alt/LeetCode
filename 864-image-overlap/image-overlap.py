@@ -1,26 +1,26 @@
-# 30 (1, 30)
-
-# (2 * 30 * 30) ^ 2
-
-DIR = [(1, 1, 0, 0), (0, 1, 1, 0), (1, 0, 0, 1), (0, 0, 1, 1)]
-
 class Solution:
     def largestOverlap(self, img1: List[List[int]], img2: List[List[int]]) -> int:
         N = len(img1)
-
         result = 0
 
-        for d in DIR:
-            for i in range(N):
-                for j in range(N):
-                    matches = 0
+        points = [
+            (i, j)
+            for i in range(N)
+            for j in range(N)
+            if img1[i][j]
+        ]
 
-                    for a in range(N - i):
-                        for b in range(N - j):
-                            if img1[a + i*d[0]][b + j*d[1]] == img2[a + i*d[2]][b + j*d[3]] == 1:
-                                matches += 1
+        for di in range(-N + 1, N):
+            for dj in range(-N + 1, N):
+                matches = 0
 
-                    result = max(result, matches)
+                for i, j in points:
+                    ni = i + di
+                    nj = j + dj
+
+                    if 0 <= ni < N and 0 <= nj < N:
+                        matches += img2[ni][nj]
+
+                result = max(result, matches)
 
         return result
-        
