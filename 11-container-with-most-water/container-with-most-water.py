@@ -7,12 +7,8 @@ class Solution:
 
         result = 0
 
-        def update():
-            nonlocal result
-            result = max(result, (r - l) * min(L, R))
-
         while l < r:
-            update()
+            result = max(result, (r - l) * min(L, R))
             if L < R:
                 l += 1
                 L = max(L, height[l])
