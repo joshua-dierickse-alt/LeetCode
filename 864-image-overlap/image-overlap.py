@@ -3,12 +3,17 @@ class Solution:
         N = len(img1)
         result = 0
 
-        points = [
-            (i, j)
-            for i in range(N)
-            for j in range(N)
-            if img1[i][j]
-        ]
+        def sum_2d_array(arr):
+            return sum(sum(row) for row in arr)
+
+        def gen_points(img):
+            return [(i, j) for i in range(N) for j in range(N) if img[i][j]]
+
+        if sum_2d_array(img1) < sum_2d_array(img2):
+            points = gen_points(img1)
+        else:
+            points = gen_points(img2)
+            img1, img2 = img2, img1
 
         for di in range(-N + 1, N):
             for dj in range(-N + 1, N):
