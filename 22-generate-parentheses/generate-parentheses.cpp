@@ -1,4 +1,5 @@
 class Solution {
+    string cur;
     vector<string> result;
 
     void dfs(int open, int closed, string &cur) {
@@ -21,10 +22,6 @@ class Solution {
 
 public:
     vector<string> generateParenthesis(int n) {
-        result.clear();
-
-        string cur;
-
         dfs(n, n, cur);
 
         return result;
