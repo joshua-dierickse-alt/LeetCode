@@ -2,13 +2,15 @@ from collections import defaultdict
 
 class Solution:
     def scoreOfParentheses(self, s: str) -> int:
-        stack = defaultdict(lambda: 0)
+        stack = [0]
 
         depth = 0
 
         for c in s:
             if c == "(":
                 depth += 1
+                if depth >= len(stack):
+                    stack.append(0)
             else:
                 if stack[depth] > 0:
                     stack[depth - 1] += 2 * stack[depth]
