@@ -17,10 +17,8 @@ class Solution:
         next(it)
 
         for num in it:
-            heapq.heappush(max_heap, -num)
-            heapq.heappush(min_heap, num)
-            heapq.heappop(max_heap)
-            heapq.heappop(min_heap)
+            heapq.heappushpop(max_heap, -num)
+            heapq.heappushpop(min_heap, num)
 
         a, b, c = sorted([-num for num in max_heap])
         x, y, z = sorted(min_heap)
